@@ -1,0 +1,25 @@
+#path to reference genome file
+#note: reference genome must first be indexed using bwa index
+ref_genome=./reference_genome/Gmax_275_v2.0.fa 
+
+#path to GBSX.jar
+GBSX=./GBSX_DW.jar
+
+#path to raw sequencer output; LEAVE R2 BLANK IF SINGLE-END READS
+raw_reads_R1=./Sample_data/sample.fastq.gz
+raw_reads_R2=
+
+#path to barcodes file
+barcodes_file=./Sample_data/sample_barcodes.txt
+
+#adapter sequence
+adapter_seq=GATCGGAAGAGCG
+
+#number of cores to use
+num_cores=2
+
+#minimum read depth to filter SNPs
+min_depth=2
+
+#minimum read length after barcode and adapter trim
+min_length=80
