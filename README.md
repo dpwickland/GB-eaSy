@@ -106,7 +106,7 @@ bcftools mpileup --regions {} --output-type z --skip-indels --annotate AD,DP --f
 
 bcftools call --multiallelic-caller --variants-only --no-version Intermediate_files/3.mpileup/mpileup_{}.vcf.gz | sed -e 's|$(pwd)\/||g' -e 's/Intermediate_files\/2\.bam_alignments\///g' -e  's/\.R.\.fastq.sorted_bam//g'  > Intermediate_files/4.Raw_SNPs/raw_SNPs_{}.vcf;\
 
-" ::: `grep ">" $ref_genome | sed 's/>//g'`
+" ::: `grep ">" $ref_genome | cut -d ' ' -f1 | sed 's/>//g'`
 ```
 **bcftools mpileup** is used to generate a pileup of read bases from which **bcftools call** identifies SNPs. Here, **bcftools mpileup** is set to skip indels (and instead look for SNPs), to consider only the bases with a quality score of at least 20 and only the reads with a mapping quality of at least 20, and to output in the compressed vcf format. **bcftools call** is set to use the multiallelic caller algorithm and to output (for a given taxon/sample) only the sites that differ from the reference genome. Two additional steps remove the file extensions from the taxa names in the output VCF files.
 
