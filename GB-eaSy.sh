@@ -34,7 +34,7 @@ bcftools mpileup --regions {} --output-type z --skip-indels --annotate AD,DP --f
 ##CALL SNPS
 bcftools call --multiallelic-caller --variants-only --no-version Intermediate_files/3.mpileup/mpileup_{}.vcf.gz | sed -e 's|$(pwd)\/||g' -e 's/Intermediate_files\/2\.bam_alignments\///g' -e  's/\.R.\.fastq.sorted_bam//g'  > Intermediate_files/4.Raw_SNPs/raw_SNPs_{}.vcf;\
 
-" ::: `grep ">" $ref_genome | sed 's/>//g'`
+" ::: `grep ">" $ref_genome | cut -d ' ' -f1 | sed 's/>//g'`
 
 ##COMBINE SNPS FROM ALL REGIONS
 bcftools concat --no-version `for file in $(ls Intermediate_files/4.Raw_SNPs/*.vcf | sort -V); do echo $file; done;` > Results/all_SNPs_raw.vcf	
