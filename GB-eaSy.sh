@@ -37,7 +37,7 @@ bcftools call --multiallelic-caller --variants-only --no-version Intermediate_fi
 " ::: `grep ">" $ref_genome | cut -d ' ' -f1 | sed 's/>//g'`
 
 ##COMBINE SNPS FROM ALL REGIONS
-bcftools concat --no-version `for file in $(ls Intermediate_files/4.Raw_SNPs/*.vcf | sort -V); do echo $file; done;` > Results/all_SNPs_raw.vcf	
+bcftools concat --no-version `ls -v Intermediate_files/4.Raw_SNPs/*.vcf` > Results/all_SNPs_raw_orig.vcf	
 
 ##FILTER VCF 
 vcftools --vcf Results/all_SNPs_raw.vcf --minDP $min_depth --recode --stdout | awk '/#/ || /[0-9]\/[0-9]/' >Results/all_SNPs_minDP$min_depth.vcf

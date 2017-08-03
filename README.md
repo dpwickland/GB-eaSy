@@ -115,7 +115,7 @@ To allow parallel processing, **GNU parallel** is set to run the mpileup-call co
 
 ### Step 7: Combine SNPS from all regions
 ```
-bcftools concat --no-version `for file in $(ls Intermediate_files/4.Raw_SNPs/*.vcf | sort -V); do echo $file; done;` > Results/all_SNPs_raw.vcf	
+bcftools concat --no-version `ls -v Intermediate_files/4.Raw_SNPs/*.vcf` > Results/all_SNPs_raw.vcf	
 ```
 The previous step generates one VCF file for each region listed in the reference genome. In step 7, the **bcftools concat** command joins these VCF files together into a single file (all_SNPS_raw.vcf).
 
