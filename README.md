@@ -64,10 +64,12 @@ In the current directory, two directories are created: **Intermediate_files** (t
 
 ### Step 2: Demultiplex raw reads
 ```
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file
+if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then demultiplex single-end reads
 	then
 		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
-	else
+		
+elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then demultiplex paired-end reads
+	then
 		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -f2 $raw_reads_R2 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
 fi
 ```
@@ -77,10 +79,12 @@ The tab-delimited barcodes file used as input for GBSX contains three fields: sa
 
 ### Step 3: Align to reference
 ```
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file
+if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then align single-end reads to reference genome
 	then
 		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {} | samtools sort -o Intermediate_files/2.bam_alignments/{/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` 
-	else
+		
+elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then align paired-end reads to reference genome
+	then
 		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
 fi
 ```

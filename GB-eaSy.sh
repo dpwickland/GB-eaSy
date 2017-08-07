@@ -7,18 +7,22 @@ set -e
 mkdir -p Intermediate_files/1.Demultiplexed_reads Intermediate_files/2.bam_alignments/ Intermediate_files/3.mpileup/ Intermediate_files/4.Raw_SNPs/ Results/
 
 ##DEMULTIPLEX READS
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file
+if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then demultiplex single-end reads
 	then
 		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
-	else
+		
+elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then demultiplex paired-end reads
+	then
 		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -f2 $raw_reads_R2 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
 fi
 
 ##ALIGN TO REFERENCE
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file
+if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then align single-end reads to reference genome
 	then
 		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {} | samtools sort -o Intermediate_files/2.bam_alignments/{/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` 
-	else
+		
+elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then align paired-end reads to reference genome
+	then
 		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
 fi
 
@@ -37,7 +41,7 @@ bcftools call --multiallelic-caller --variants-only --no-version Intermediate_fi
 " ::: `grep ">" $ref_genome | cut -d ' ' -f1 | sed 's/>//g'`
 
 ##COMBINE SNPS FROM ALL REGIONS
-bcftools concat --no-version `ls -v Intermediate_files/4.Raw_SNPs/*.vcf` > Results/all_SNPs_raw_orig.vcf	
+bcftools concat --no-version `ls -v Intermediate_files/4.Raw_SNPs/*.vcf` > Results/all_SNPs_raw.vcf	
 
 ##FILTER VCF 
 vcftools --vcf Results/all_SNPs_raw.vcf --minDP $min_depth --recode --stdout | awk '/#/ || /[0-9]\/[0-9]/' >Results/all_SNPs_minDP$min_depth.vcf
