@@ -85,7 +85,7 @@ if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, th
 		
 elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then align paired-end reads to reference genome
 	then
-		parallel --max-procs $num_cores --keep-order --link "bwa mem  -p $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
+		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
 fi
 ```
 **bwa mem** is used to align reads to the reference genome (whose path is set by the variable *ref_genome* in the parameters file), which should be unzipped and then indexed with **bwa index** prior to running GB-eaSy. This step has two tracks: If the *raw_reads_R2* variable is not set in the parameters file, then the first statement is executed to align single-end reads to the reference genome. If the *raw_reads_R2* (and *raw_reads_R1*) variable is set, then the second statement is executed to align paired-end reads to the reference genome. 

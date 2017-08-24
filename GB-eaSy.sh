@@ -23,7 +23,7 @@ if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, th
 		
 elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then align paired-end reads to reference genome
 	then
-		parallel --max-procs $num_cores --keep-order --link "bwa mem  -p $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
+		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
 fi
 
 ##CREATE LIST OF SORTED BAM FILES
