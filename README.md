@@ -47,14 +47,14 @@ set -e
 . ./GB-eaSy_parameters.txt
 ```
 **set -e** stops the script if any command produces an error. **GB-eaSy_parameters.txt** contains variables whose values must be customized for a given GBS project. This file must be placed in the same directory as the GB-eaSy.sh script. The following values are specified in the parameters file:  
-* Path to reference genome (*ref_genome*)
+* Path to reference genome (*REF_GENOME*)
 * Path to GBSX.jar file (*GBSX*)
-* Path to raw data (*raw_reads_R1* if single-end reads; *raw_reads_R1* and *raw_reads_R2* if paired-end reads)  
-* Path to barcodes file (*barcodes_file*)
-* Adapter sequence (*adapter_seq*)
-* Number of CPU cores to use (*num_cores*)
-* Minimum read depth to filter SNPs (*min_depth*)
-* Minimum read length to keep after barcode and adapter trim (*min_length*)  
+* Path to raw data (*RAW_READS_R1* if single-end reads; *RAW_READS_R1* and *RAW_READS_R2* if paired-end reads)  
+* Path to barcodes file (*BARCODES_FILE*)
+* Adapter sequence (*ADAPTER_SEQ*)
+* Number of CPU cores to use (*NUM_CORES*)
+* Minimum read depth to filter SNPs (*MIN_DEPTH*)
+* Minimum read length to keep after barcode and adapter trim (*MIN_LENGTH*)  
 	
 ### Step 1: Create directory structure
 ```
@@ -64,31 +64,31 @@ In the current directory, two directories are created: **Intermediate_files** (t
 
 ### Step 2: Demultiplex raw reads
 ```
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then demultiplex single-end reads
+if [ -z $RAW_READS_R2 ] #if RAW_READS_R2 variable not set in parameters file, then demultiplex single-end reads
 	then
-		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
+		java -jar $GBSX --Demultiplexer -t $NUM_CORES -f1 $RAW_READS_R1 -i $BARCODES_FILE -gzip true -ca $ADAPTER_SEQ -minsl $MIN_LENGTH -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
 		
-elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then demultiplex paired-end reads
+elif [ -n $RAW_READS_R2 ] #if RAW_READS_R2 variable set in parameters file, then demultiplex paired-end reads
 	then
-		java -jar $GBSX --Demultiplexer -t $num_cores -f1 $raw_reads_R1 -f2 $raw_reads_R2 -i $barcodes_file -gzip true -ca $adapter_seq -minsl $min_length -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
+		java -jar $GBSX --Demultiplexer -t $NUM_CORES -f1 $RAW_READS_R1 -f2 $RAW_READS_R2 -i $BARCODES_FILE -gzip true -ca $ADAPTER_SEQ -minsl $MIN_LENGTH -o Intermediate_files/1.Demultiplexed_reads; rm Intermediate_files/1.Demultiplexed_reads/*undetermined*
 fi
 ```
-**GBSX** is used to separate reads according to the taxa listed in the barcodes file (set by the *barcodes_file* variable in the parameters file). This step has two tracks: If the *raw_reads_R2* variable is not set in the parameters file, then the first statement is executed to demultiplex single-end reads whose path is set by *raw_reads_R1*. If the *raw_reads_R2* (and *raw_reads_R1*) variable is set, then the second statement is executed to demultiplex paired-end reads. A final step removes the file containing reads with undetermined barcodes (this file would otherwise interfere with later analysis).
+**GBSX** is used to separate reads according to the taxa listed in the barcodes file (set by the *BARCODES_FILE* variable in the parameters file). This step has two tracks: If the *RAW_READS_R2* variable is not set in the parameters file, then the first statement is executed to demultiplex single-end reads whose path is set by *RAW_READS_R1*. If the *RAW_READS_R2* (and *RAW_READS_R1*) variable is set, then the second statement is executed to demultiplex paired-end reads. A final step removes the file containing reads with undetermined barcodes (this file would otherwise interfere with later analysis).
 
 The tab-delimited barcodes file used as input for GBSX contains three fields: sample name, barcode and restriction enzyme name. See https://github.com/GenomicsCoreLeuven/GBSX, or the example barcodes file in this repository, for more information.
 
 ### Step 3: Align to reference
 ```
-if [ -z $raw_reads_R2 ] #if raw_reads_R2 variable not set in parameters file, then align single-end reads to reference genome
+if [ -z $RAW_READS_R2 ] #if RAW_READS_R2 variable not set in parameters file, then align single-end reads to reference genome
 	then
-		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {} | samtools sort -o Intermediate_files/2.bam_alignments/{/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` 
+		parallel --max-procs $NUM_CORES --keep-order --link "bwa mem  $REF_GENOME {} | samtools sort -o Intermediate_files/2.bam_alignments/{/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` 
 		
-elif [ -n $raw_reads_R2 ] #if raw_reads_R2 variable set in parameters file, then align paired-end reads to reference genome
+elif [ -n $RAW_READS_R2 ] #if RAW_READS_R2 variable set in parameters file, then align paired-end reads to reference genome
 	then
-		parallel --max-procs $num_cores --keep-order --link "bwa mem  $ref_genome {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
+		parallel --max-procs $NUM_CORES --keep-order --link "bwa mem  $REF_GENOME {1} {2} | samtools sort -o Intermediate_files/2.bam_alignments/{1/.}.sorted_bam; samtools index Intermediate_files/2.bam_alignments/{1/.}.sorted_bam" ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R1.fastq.gz` ::: `ls Intermediate_files/1.Demultiplexed_reads/*.R2.fastq.gz`
 fi
 ```
-**bwa mem** is used to align reads to the reference genome (whose path is set by the variable *ref_genome* in the parameters file), which should be unzipped and then indexed with **bwa index** prior to running GB-eaSy. This step has two tracks: If the *raw_reads_R2* variable is not set in the parameters file, then the first statement is executed to align single-end reads to the reference genome. If the *raw_reads_R2* (and *raw_reads_R1*) variable is set, then the second statement is executed to align paired-end reads to the reference genome. 
+**bwa mem** is used to align reads to the reference genome (whose path is set by the variable *REF_GENOME* in the parameters file), which should be unzipped and then indexed with **bwa index** prior to running GB-eaSy. This step has two tracks: If the *RAW_READS_R2* variable is not set in the parameters file, then the first statement is executed to align single-end reads to the reference genome. If the *RAW_READS_R2* (and *RAW_READS_R1*) variable is set, then the second statement is executed to align paired-end reads to the reference genome. 
 
 After alignment, **samtools sort** outputs sorted BAM alignment files, which are indexed with the command **samtools index**.
 
@@ -104,13 +104,13 @@ A list of sorted BAM files is required for the next set of commands.
 ### Step 5 and 6: Generate pileup and call SNPs	
 
 ```
-parallel  --gnu --max-procs $num_cores --keep-order "\
+parallel  --gnu --max-procs $NUM_CORES --keep-order "\
 
-bcftools mpileup --regions {} --output-type z --skip-indels --annotate AD,DP --fasta-ref $ref_genome --min-MQ 20 --min-BQ 20  --no-version -b Intermediate_files/2.bam_alignments/samples_list.txt -o Intermediate_files/3.mpileup/mpileup_{}.vcf.gz;\
+bcftools mpileup --regions {} --output-type z --skip-indels --annotate AD,DP --fasta-ref $REF_GENOME --min-MQ 20 --min-BQ 20  --no-version -b Intermediate_files/2.bam_alignments/samples_list.txt -o Intermediate_files/3.mpileup/mpileup_{}.vcf.gz;\
 
 bcftools call --multiallelic-caller --variants-only --no-version Intermediate_files/3.mpileup/mpileup_{}.vcf.gz | sed -e 's|$(pwd)\/||g' -e 's/Intermediate_files\/2\.bam_alignments\///g' -e  's/\.R.\.fastq.sorted_bam//g'  > Intermediate_files/4.Raw_SNPs/raw_SNPs_{}.vcf;\
 
-" ::: `grep ">" $ref_genome | cut -d ' ' -f1 | sed 's/>//g'`
+" ::: `grep ">" $REF_GENOME | cut -d ' ' -f1 | sed 's/>//g'`
 ```
 **bcftools mpileup** is used to generate a pileup of read bases from which **bcftools call** identifies SNPs. Here, **bcftools mpileup** is set to skip indels (and instead look for SNPs), to consider only the bases with a quality score of at least 20 and only the reads with a mapping quality of at least 20, and to output in the compressed vcf format. **bcftools call** is set to use the multiallelic caller algorithm and to output (for a given taxon/sample) only the sites that differ from the reference genome. Two additional steps remove the file extensions from the taxa names in the output VCF files.
 
@@ -125,7 +125,7 @@ The previous step generates one VCF file for each region listed in the reference
 
 ### Step 8: Filter VCF
 ```
-vcftools --vcf Results/all_SNPs_raw.vcf --minDP $min_depth --recode --stdout | awk '/#/ || /[0-9]\/[0-9]/' >Results/all_SNPs_minDP$min_depth.vcf
+vcftools --vcf Results/all_SNPs_raw.vcf --minDP $MIN_DEPTH --recode --stdout | awk '/#/ || /[0-9]\/[0-9]/' >Results/all_SNPs_minDP$MIN_DEPTH.vcf
 ```
 
 **VCFtools** is used to filter the all_SNPs_raw.vcf file according to the minimum read depth specified in the parameters file. **VCFtools** masks the genotype of any SNP below the minimum read depth with the characters "./." The awk commmand removes any SNPs that do not reach the minimum read depth in any taxon.
