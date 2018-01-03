@@ -6,7 +6,7 @@ II. [Overview](#Overview)
 III. [Software requirements](#Software-requirements)  
 IV. [Walkthrough of GB-eaSy pipeline](#Walkthrough-of-GB-eaSy-pipeline)  
 V. [Tutorial using sample data](#Tutorial-using-sample-data)  
-VI. [Citing GB-eaSy](#Citing-GB-eaSy) 
+VI. [Citing GB-eaSy](#Citing-GB-eaSy)  
 VII. [License](#License)
 
 ## I. Introduction <a name="Introduction"></a>  
@@ -189,7 +189,7 @@ If packages are added to the PATH in this manner, then place the following line 
 ## VI. Citing GB-eaSy <a name="Citing-GB-eaSy"></a>  
 Please cite the following paper in work that uses GB-eaSy:
 ```
-Wickland DP, Battu G, Hudson KA, Diers BW & Hudson ME. (2017). A comparison of genotyping-bysequencing analysis methods on low-coverage crop datasets shows advantages of a new workflow, GB-eaSy. BMC Bioinformatics, 18:586.
+Wickland DP, Battu G, Hudson KA, Diers BW & Hudson ME. (2017). A comparison of genotyping-by-sequencing analysis methods on low-coverage crop datasets shows advantages of a new workflow, GB-eaSy. BMC Bioinformatics, 18:586.
 ```
 
 ## VII. License <a name="License"></a>  
