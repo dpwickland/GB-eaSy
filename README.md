@@ -10,7 +10,7 @@ VI. [Citing GB-eaSy](#Citing-GB-eaSy)
 VII. [License](#License)
 
 ## I. Introduction <a name="Introduction"></a>  
-GB-eaSy ([Reference](#Citing-GB-eaSy)) is a GBS bioinformatics pipeline that efficiently incorporates widely used genomics tools, parallelization and automation to increase the accuracy, efficiency and accessibility of GBS analysis. It consists of a Bash shell script that executes several bioinformatics software programs in a Linux environment. This pipeline requires a reference genome and is compatible with both single- and paired-end Illumina reads. It implements the same well-tested tools commonly adopted in whole-genome sequencing.
+GB-eaSy ([reference](#Citing-GB-eaSy)) is a GBS bioinformatics pipeline that efficiently incorporates widely used genomics tools, parallelization and automation to increase the accuracy, efficiency and accessibility of GBS analysis. It consists of a Bash shell script that executes several bioinformatics software programs in a Linux environment. This pipeline requires a reference genome and is compatible with both single- and paired-end Illumina reads. It implements the same well-tested tools commonly adopted in whole-genome sequencing.
 
 GB-eaSy is appropriate for users without extensive command-line expertise as well as for experienced bioinformaticians who may choose to modify any step of the script. Before starting the pipeline, the user modifies a parameters file with settings customized for their GBS project (e.g. path to raw sequencer output file, path to barcodes file, number of CPU cores to use). The user then issues a single command to execute the pipeline. 
 
