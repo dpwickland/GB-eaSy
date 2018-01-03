@@ -7,7 +7,8 @@ III. [Software requirements](#Software-requirements)
 IV. [Walkthrough of GB-eaSy pipeline](#Walkthrough-of-GB-eaSy-pipeline)  
 V. [Tutorial using sample data](#Tutorial-using-sample-data)  
 VI. [Citing GB-eaSy](#Citing-GB-eaSy)  
-VII. [License](#License)
+VII. [Contact](#Contact)
+VIII. [License](#License)
 
 ## I. Introduction <a name="Introduction"></a>  
 GB-eaSy ([reference](#Citing-GB-eaSy)) is a genotyping-by-sequencing (GBS) bioinformatics pipeline that efficiently incorporates widely used genomics tools, parallelization and automation to improve the accuracy and accessibility of GBS analysis. It consists of a Bash shell script that executes several bioinformatics software programs in a Linux environment. This pipeline requires a reference genome and is compatible with both single- and paired-end Illumina reads. It implements the same well-tested tools commonly adopted in whole-genome sequencing.
@@ -192,7 +193,12 @@ Please cite the following paper in work that uses GB-eaSy:
 Wickland DP, Battu G, Hudson KA, Diers BW & Hudson ME. (2017). A comparison of genotyping-by-sequencing analysis methods on low-coverage crop datasets shows advantages of a new workflow, GB-eaSy. BMC Bioinformatics, 18:586.
 ```
 
-## VII. License <a name="License"></a>  
+## VII. Contact <a name="Contact"></a>  
+Daniel Wickland
+University of Illinois at Urbana-Champaign
+Email: wicklan2@illinois.edu
+
+## VIII. License <a name="License"></a>  
 This project is licensed under the terms of the MIT license.
 
 
