@@ -6,7 +6,7 @@ II. [Overview](#Overview)
 III. [Software requirements](#Software-requirements)  
 IV. [Walkthrough of GB-eaSy pipeline](#Walkthrough-of-GB-eaSy-pipeline)  
 V. [Tutorial using sample data](#Tutorial-using-sample-data)  
-VI. [Citing GB-eaSy](#Citing-GB-eaSy)
+VI. [Citing GB-eaSy](#Citing-GB-eaSy) 
 VII. [License](#License)
 
 ## I. Introduction <a name="Introduction"></a>  
