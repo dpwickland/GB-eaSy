@@ -194,8 +194,8 @@ Wickland DP, Battu G, Hudson KA, Diers BW & Hudson ME. (2017). A comparison of g
 ```
 
 ## VII. Contact <a name="Contact"></a>  
-Daniel Wickland
-University of Illinois at Urbana-Champaign
+Daniel Wickland  
+University of Illinois at Urbana-Champaign  
 Email: wicklan2@illinois.edu
 
 ## VIII. License <a name="License"></a>  
