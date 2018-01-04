@@ -1,21 +1,21 @@
 # GB-eaSy
 
 ## Table of Contents
-I. [Introduction](#Introduction)  
+I.[Introduction](#Introduction)  
 II. [Overview](#Overview)  
 III. [Software requirements](#Software-requirements)  
-IV. [Walkthrough of GB-eaSy pipeline](#Walkthrough-of-GB-eaSy-pipeline)  
+IV. [Walkthrough of pipeline](#Walkthrough-of-pipeline)  
 V. [Tutorial using sample data](#Tutorial-using-sample-data)  
 VI. [Citing GB-eaSy](#Citing-GB-eaSy)  
 VII. [Contact](#Contact)  
 VIII. [License](#License)
 
-## I. Introduction <a name="Introduction"></a>  
+## INTRODUCTION <a name="Introduction"></a>  
 GB-eaSy ([reference](#Citing-GB-eaSy)) is a genotyping-by-sequencing (GBS) bioinformatics pipeline that efficiently incorporates widely used genomics tools, parallelization and automation to improve the accuracy and accessibility of GBS analysis. It consists of a Bash shell script that executes several bioinformatics software programs in a Linux environment. This pipeline requires a reference genome and is compatible with both single- and paired-end Illumina reads. It implements the same well-tested tools commonly adopted in whole-genome sequencing.
 
 GB-eaSy is appropriate for users without extensive command-line expertise as well as for experienced bioinformaticians who may choose to modify any step of the script. Before starting the pipeline, the user modifies a parameters file with settings customized for their GBS project (e.g. path to raw sequencer output file, path to barcodes file, number of CPU cores to use). The user then issues a single command to execute the pipeline. 
 
-## II. Overview <a name="Overview"></a>  
+## OVERVIEW <a name="Overview"></a>  
 ### Demultiplex reads and trim adapter sequence
 The first step of GB-eaSy uses the software GBSX (Herten et al. 2015) to demultiplex reads and trim adapter sequences based on a user-created barcodes file containing the short barcode sequences that uniquely identify each sample. 
 ### Align to reference genome
@@ -25,7 +25,7 @@ After alignment, BCFtools (Li 2011) is used to create a pileup of read bases fro
 ### Filter results 
 Finally, the output VCF file is filtered according to a user-specified minimum read depth, using VCFtools (Danecek et al. 2011). 
 
-## III. Software requirements <a name="Software-requirements"></a>  
+## SOFTWARE REQUIREMENTS <a name="Software-requirements"></a>  
 perl (https://www.perl.org/get.html)  
 GNU parallel (version 20170122 or later): http://ftp.gnu.org/gnu/parallel/   
 JAVA (version 1.8 or later): https://java.com/en/download/manual.jsp  
@@ -38,7 +38,7 @@ VCFtools (version 0.1.12b or later): https://sourceforge.net/projects/vcftools/f
 
 Versions earlier than those listed above have not been tested and may not work as expected. 
   
-## IV. Walkthrough of GB-eaSy pipeline <a name="Walkthrough-of-GB-eaSy-pipeline"></a>  
+## WALKTHROUGH OF PIPELINE <a name="Walkthrough-of-pipeline"></a>  
 The following section explains each command that the GB-eaSy.sh script executes. 
 
 ### Step 0: Load parameters file
@@ -132,7 +132,7 @@ vcftools --vcf Results/all_SNPs_raw.vcf --minDP $MIN_DEPTH --recode --stdout | a
 
 **VCFtools** is used to filter the all_SNPs_raw.vcf file according to the minimum read depth specified in the parameters file. **VCFtools** masks the genotype of any SNP below the minimum read depth with the characters "./." The awk commmand removes any SNPs that do not reach the minimum read depth in any taxon.
 
-## V. Tutorial using sample data <a name="Tutorial-using-sample-data"></a>  
+## TUTORIAL USING SAMPLE DATA <a name="Tutorial-using-sample-data"></a>  
 **Step 1: After installing the required software [listed above](#Software-requirements), download this repository** 
 ```
 git clone https://github.com/dpwickland/GB-eaSy.git
@@ -187,18 +187,18 @@ If packages are added to the PATH in this manner, then place the following line 
 . ~/.bash_profile
 ```
 
-## VI. Citing GB-eaSy <a name="Citing-GB-eaSy"></a>  
-Please cite the following paper in work that uses GB-eaSy:
+## CITING GB-eaSy <a name="Citing-GB-eaSy"></a>  
+Please cite the following paper if you use GB-eaSy:
 ```
 Wickland DP, Battu G, Hudson KA, Diers BW & Hudson ME. (2017). A comparison of genotyping-by-sequencing analysis methods on low-coverage crop datasets shows advantages of a new workflow, GB-eaSy. BMC Bioinformatics, 18:586.
 ```
 
-## VII. Contact <a name="Contact"></a>  
+## CONTACT <a name="Contact"></a>  
 Daniel Wickland  
 University of Illinois at Urbana-Champaign  
 Email: wicklan2@illinois.edu
 
-## VIII. License <a name="License"></a>  
+## LICENSE <a name="License"></a>  
 This project is licensed under the terms of the MIT license.
 
 
