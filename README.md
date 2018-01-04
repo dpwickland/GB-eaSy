@@ -1,7 +1,7 @@
 # GB-eaSy
 
 ## Table of Contents
-I.[Introduction](#Introduction)  
+I. [Introduction](#Introduction)  
 II. [Overview](#Overview)  
 III. [Software requirements](#Software-requirements)  
 IV. [Walkthrough of pipeline](#Walkthrough-of-pipeline)  
