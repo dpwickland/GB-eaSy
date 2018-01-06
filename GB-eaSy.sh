@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -x
 . ./GB-eaSy_parameters.txt
 
 ##SET UP DIRECTORY STRUCTURE

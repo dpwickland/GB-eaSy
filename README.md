@@ -46,9 +46,10 @@ The following section explains each command that the GB-eaSy.sh script executes.
 #!/bin/bash
 
 set -e
+set -x
 . ./GB-eaSy_parameters.txt
 ```
-**set -e** stops the script if any command produces an error. **GB-eaSy_parameters.txt** contains variables whose values must be customized for a given GBS project. This file must be placed in the same directory as the GB-eaSy.sh script. The following values are specified in the parameters file:  
+**set -e** stops the script if any command produces an error. **set -e** prints each command to the terminal before execution. **GB-eaSy_parameters.txt** contains variables whose values must be customized for a given GBS project. This file must be placed in the same directory as the GB-eaSy.sh script. The following values are specified in the parameters file:  
 * Path to reference genome (*REF_GENOME*)
 * Path to GBSX.jar file (*GBSX*)
 * Path to raw data (*RAW_READS_R1* if single-end reads; *RAW_READS_R1* and *RAW_READS_R2* if paired-end reads)  
@@ -174,6 +175,11 @@ The variables in the parameter file are set by default to work with this tutoria
 **Step 6: Run GB-eaSy**
 ```
 sh ./GB-eaSy.sh
+```
+
+or, to run the pipeline in the background with no hangups:
+```
+nohup ./GB-eaSy.sh
 ```
 
 Note: For some users' configurations, the [software packages](#Software-requirements) may need to be added to the environmental variable PATH, which tells the bash shell where to find them. One way to do this is to edit the **.bash_profile** configuration file (~/.bash_profile), which exports environmental variables such as the PATH. 
