@@ -179,7 +179,7 @@ sh ./GB-eaSy.sh
 
 or, to run the pipeline in the background with no hangups:
 ```
-nohup ./GB-eaSy.sh
+nohup ./GB-eaSy.sh &
 ```
 
 Note: For some users' configurations, the [software packages](#Software-requirements) may need to be added to the environmental variable PATH, which tells the bash shell where to find them. One way to do this is to edit the **.bash_profile** configuration file (~/.bash_profile), which exports environmental variables such as the PATH. 
