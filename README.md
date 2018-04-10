@@ -157,7 +157,7 @@ curl 'https://signon.jgi.doe.gov/signon/create' --data-urlencode 'login=USER_NAM
 mkdir reference_genome
 
 #Download reference genome
-curl 'http://genome.jgi.doe.gov/ext-api/downloads/get_tape_file?blocking=true&url=/Phytozome/download/_JAMO/56981cf70d87851ee9727dcb/Gmax_275_v2.0.fa.gz' -b cookies > ./reference_genome/Gmax_275_v2.0.fa.gz
+curl 'https://genome.jgi.doe.gov/ext-api/downloads/get_tape_file?blocking=true&url=/Phytozome/download/_JAMO/56981cf70d87851ee9727dcb/Gmax_275_v2.0.fa.gz' -b cookies > ./reference_genome/Gmax_275_v2.0.fa.gz
 ```
 
 **Step 4: Unzip and index the reference genome** 
