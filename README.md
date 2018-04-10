@@ -173,7 +173,6 @@ bwa index reference_genome/Gmax_275_v2.0.fa
 The variables in the parameter file are set by default to work with this tutorial and the sample data. For this tutorial, the variable *GBSX* points to the GBSX_DW.jar script, which we modified from the original GBSX.jar to include the HindIII cut site, which was not supported initially. Because the sample dataset in this tutorial uses the HindIII enzyme, this modified version of the GBSX script is required here.
 
 **Step 6: Run GB-eaSy**
-To speed up the workflow on a system with multiple cores, modify the NUM_CORES variable in the GB-eaSy_parameters.txt file.
 
 ```
 sh ./GB-eaSy.sh
@@ -187,7 +186,11 @@ nohup ./GB-eaSy.sh &
 Output: At the conclusion of the run, there will be two files in the Results directory: all_SNPS_raw.vcf (containing 4255 SNPs) and all_SNPs_minDP2.vcf (containing 238 SNPs). The latter file contains only those SNPs supported by at least two reads for any sample; this is a low-coverage dataset, so only a fraction of the SNPs meet this criterion.
 
 
-Note: For some users' configurations, the [software packages](#Software-requirements) may need to be added to the environmental variable PATH, which tells the bash shell where to find them. One way to do this is to edit the **.bash_profile** configuration file (~/.bash_profile), which exports environmental variables such as the PATH. 
+Notes: 
+
+To speed up the workflow on a system with multiple cores, modify the NUM_CORES variable in the GB-eaSy_parameters.txt file.  
+
+For some users' configurations, the [software packages](#Software-requirements) may need to be added to the environmental variable PATH, which tells the bash shell where to find them. One way to do this is to edit the **.bash_profile** configuration file (~/.bash_profile), which exports environmental variables such as the PATH. 
  
 For example, if the path to java is /home/user/java/jre1.8.0_131/bin, then the following line should be added to ~/.bash_profile:  
 ```
