@@ -160,6 +160,8 @@ mkdir reference_genome
 curl 'https://genome.jgi.doe.gov/ext-api/downloads/get_tape_file?blocking=true&url=/Phytozome/download/_JAMO/56981cf70d87851ee9727dcb/Gmax_275_v2.0.fa.gz' -b cookies > ./reference_genome/Gmax_275_v2.0.fa.gz
 ```
 
+Note: If unable to download the reference genome via the command line, go to https://genome.jgi.doe.gov/portal/pages/dynamicOrganismDownload.jsf?organism=Gmax and select Gmax --> Wm82.a2.v1 --> assembly --> Gmax_275_v2.0.fa.gz 
+
 **Step 4: Unzip and index the reference genome** 
 
 ```
