@@ -1,8 +1,15 @@
 #!/bin/bash
 
+PARAMETERS="./GB-eaSy_parameters.txt"
+
+# If a non-default parameters file is supplied, set it as the source of parameters
+if [[ -n "$1" ]]; then
+	PARAMETERS="$1"
+fi
+
 set -e
 set -x
-. ./GB-eaSy_parameters.txt
+. "$PARAMETERS"
 
 ##SET UP DIRECTORY STRUCTURE
 mkdir -p Intermediate_files/1.Demultiplexed_reads Intermediate_files/2.bam_alignments/ Intermediate_files/3.mpileup/ Intermediate_files/4.Raw_SNPs/ Results/
